@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.shopcart.dao.ShopCartDtoMapper">
+    <resultMap id="BaseResultMap" type="com.example.shopcart.dto.ShopCartDto">
+        <constructor>
+            <idArg column="id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="user_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="product_name" javaType="java.lang.String" jdbcType="BIGINT"/>
+            <arg column="count" javaType="java.lang.Integer" jdbcType="BIGINT"/>
+        </constructor>
+    </resultMap>
+    <select id="selectByUserid" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+            shop_cart.id,
+            account_user.user_name,
+            product.product_name,
+            shop_cart.count
+        from shop_cart,account_user,product
+        where
+          shop_cart.product_id=product.id
+          and shop_cart.user_id=account_user.id
+          and shop_cart.user_id = #{id,jdbcType=VARCHAR}
+    </select>
+</mapper>

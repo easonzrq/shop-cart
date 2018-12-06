@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.shopcart.dao.PermissionMapper">
+  <resultMap id="BaseResultMap" type="com.example.shopcart.model.Permission">
+    <constructor>
+      <idArg column="id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="permission_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="url" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, permission_name, url
+  </sql>
+ <select id="findByAdminUserId" parameterMap="java.lang.String" resultMap="BaseResultMap">
+   select p.*
+        from account_user u
+        LEFT JOIN role_user sru on u.id= sru.Sys_User_id
+        LEFT JOIN role r on sru.Sys_Role_id=r.id
+        LEFT JOIN permission_role spr on spr.role_id=r.id
+        LEFT JOIN permission p on p.id =spr.permission_id
+        where u.id=#{userId}
+ </select>
+  <select id="findAll"  resultMap="BaseResultMap">
+
+     SELECT * from Sys_permission ;
+</select>
+</mapper>
